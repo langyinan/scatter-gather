@@ -1,4 +1,4 @@
-## Welcome to GitHub Pages
+## Scatter-Gather Cloud Storage Simulation
 
 You can use the [editor on GitHub](https://github.com/langyinan/scatter-gather/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
 
