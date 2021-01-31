@@ -1,13 +1,26 @@
-## Scatter-Gather Cloud Storage Simulation
+# Scatter-Gather Cloud Storage Simulation (C)
 
-You can use the [editor on GitHub](https://github.com/langyinan/scatter-gather/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+This is a breif explanation of this project. Only a part of the code is presented. For access to the full project, please contact me:
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Project Concept
+Email:          langyina88@gmail.com
+
+LinkedIn:       [langyinan](https://www.linkedin.com/in/langyinan)
+
+GitHub:         [langyinan](https://github.com/langyinan)
+
+
+
+##### The core functions of the cloud storage system is stored in [sg_driver.c](https://github.com/langyinan/scatter-gather/blob/main/sg_driver.c)
+
+##### The core functions of the cache is stored in [sg_cache.c](https://github.com/langyinan/scatter-gather/blob/main/sg_cache.c)
+
+##### The key definitions of the system is stored in [sg_defs.h](https://github.com/langyinan/scatter-gather/blob/main/sg_defs.h)
+
+## Project Concept and Structure
+
 
 This project utilizes object-oriented programming to abstract the concept of an "Archive" as below:
-
 ```markdown
 struct archive{
 
@@ -22,25 +35,60 @@ struct archive{
 
 };
 ```
-
 - **fhandle** is a number that represents the document, similar to a file name or file path.
 - ***address** is used for memory-level operations
 - **Nodes** and **Blocks** are simulations of a cloud storage system:A segment of data are stored in different blocks located in different nodes. If a fileexceeds one block size, a different block will be allocated to this file.
 - Operations are performed on blocks. That means, if a data is shorter than the block,the system grabs the data from the block, modify it, and re-upload it to the storage system.
+- Local **Node IDs** and **Block IDs** are **different** from the remote ones. Remote IDs are stored in the cloud storage system and locals are stored in local memories. Since local and remote communicate with each other via I/O Bus, they don't have the same reference of object. 
+- Further more, the remote node IDs store additional information called **remote sequence number**. Everytime the remote node got accessed, the sequence number will increase by one for that node only.
+- Different from **remote sequence number**, the **local sequence number** increases everytime a operation is performed. That means, a bus is sent or received.
 
 
-### I/O Bus
+## I/O Bus
 
-In a cloud storage system, the local client communicate with the cloud storage system via
+In a cloud storage system, the local client communicate with the cloud storage system via **I/O Bus**. Every bus is a number that encodes with various information.
 
-[Link](url) and ![Image](src)
+The process of pack and unpacking the information is called **serialization** and **deserialization**. Here is the component of the function called **serialize_sg_packet**
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+```markdown
+////////////////////////////////////////////////////////////////////////////////
+//
+// Function     : serialize_sg_packet
+// Description  : Serialize a ScatterGather packet (create packet)
+//
+// Inputs       : loc - the local node identifier
+//                rem - the remote node identifier
+//                blk - the block identifier
+//                op - the operation performed/to be performed on block
+//                sseq - the sender sequence number
+//                rseq - the receiver sequence number
+//                data - the data block (of size SG_BLOCK_SIZE) or NULL
+//                packet - the buffer to place the data
+//                plen - the packet length (int bytes)
+// Outputs      : 0 if successfully created, -1 if failure
+```
 
-### Jekyll Themes
+## Cache
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/langyinan/scatter-gather/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+The cloud storage system supports  **LFU cache**. It is currently of size 128, but can be changed in the future if needed.
 
-### Support or Contact
+The cache is initialized with the cloud storage system and everytime that a blockID needs to be retrived from the system, the cache will be called and see if it the block that we wanted is already stored locally. 
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+```markdown
+struct datacache{
+
+    char *buf;                // Data
+    SG_Block_ID blockID;      // Block ID
+    SG_Node_ID nodeID;        // Node ID
+    int timer;                // A timer
+
+};
+```
+
+
+
+
+##### _Updated 1/31/2021 by Yinan Lang_
+
+
+
