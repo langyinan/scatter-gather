@@ -1,9 +1,9 @@
 # Scatter-Gather Cloud Storage Simulation (C)
 
-This is a breif explanation of this project. Only a part of the code is presented. For access to the full project, please contact me:
+This is a brief explanation of this project. Only a part of the code is presented. For access to the full project, please contact me:
 
 
-Email:          langyina88@gmail.com
+Email:          langyinan88@gmail.com
 
 LinkedIn:       [langyinan](https://www.linkedin.com/in/langyinan)
 
