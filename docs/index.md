@@ -6,9 +6,9 @@ Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://j
 
 ### Project Concept
 
-```markdown
 This project utilizes object-oriented programming to abstract the concept of an "Archive" as below:
 
+```markdown
 struct archive{
 
     SgFHandle fhandle;           // Filehandle
@@ -21,13 +21,13 @@ struct archive{
     int pos;                     // Read / Write position
 
 };
+```
 
 - **fhandle** is a number that represents the document, similar to a file name or file path.
 - ***address** is used for memory-level operations
 - **Nodes** and **Blocks** are simulations of a cloud storage system:A segment of data are stored in different blocks located in different nodes. If a fileexceeds one block size, a different block will be allocated to this file.
 - Operations are performed on blocks. That means, if a data is shorter than the block,the system grabs the data from the block, modify it, and re-upload it to the storage system.
 
-```
 
 ### I/O Bus
 
