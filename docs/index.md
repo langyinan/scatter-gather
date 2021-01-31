@@ -4,27 +4,36 @@ You can use the [editor on GitHub](https://github.com/langyinan/scatter-gather/e
 
 Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
-
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+### Project Concept
 
 ```markdown
-Syntax highlighted code block
+This project utilizes object-oriented programming to abstract the concept of an "Archive" as below:
 
-# Header 1
-## Header 2
-### Header 3
+struct archive{
 
-- Bulleted
-- List
+    SgFHandle fhandle;           // Filehandle
+    int status;                  // Open or closed
+    char *addr;                  // Where it is located
+    SG_Block_ID blocks[999];     // List of blocks
+    int blockcount;              // # of blocks
+    SG_Node_ID nodeID[999];      // Node ID
+    int size;                    // File size
+    int pos;                     // Read / Write position
 
-1. Numbered
-2. List
+};
 
-**Bold** and _Italic_ and `Code` text
+- **fhandle** is a number that represents the document, similar to a file name or file path.
+- ***address** is used for memory-level operations
+- **Nodes** and **Blocks** are simulations of a cloud storage system:A segment of data are stored in different blocks located in different nodes. If a fileexceeds one block size, a different block will be allocated to this file.
+- Operations are performed on blocks. That means, if a data is shorter than the block,the system grabs the data from the block, modify it, and re-upload it to the storage system.
+
+```
+
+### I/O Bus
+
+In a cloud storage system, the local client communicate with the cloud storage system via
 
 [Link](url) and ![Image](src)
-```
 
 For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
 
